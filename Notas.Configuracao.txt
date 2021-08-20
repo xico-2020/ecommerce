@@ -1,0 +1,18 @@
+CONFIGURAÇÂO PROJETO
+====================
+
+- hosts: Alterado para o endereco virtual que criei (Ao digitar este endereço sou direcionado para o localhost). O endereço deve ser copiado e adicionado ao ficheiro hosts em c:\windows\system32\drivers\etc . O ficheiro inicial é o hosts.ORI
+
+- composer: fazer o "composer update" no gitbash na diretoria do projeto para instalar as dependencias e criar o autoload. Este composer foi alterado para as minhas configurações. O composer inicial é o composer.ORI
+
+- httpd-vhosts.conf: Ficheiro de configuração do PHP. Copiar o conteudo e colar/adicionar neste ficheiro em c:\Xampp\conf\extra . Foi alterado para as minhas configurações. O inicial é o httpd-vhosts.ORI.conf
+
+---Parte 2
+
+- Copiada a pasta hcodebr para a pasta vendor. A pasta hcodebr inclui a pasta php-classes onde se insere a pasta DB e nela a classe Sql.php. Esta classe é configurada no namespace DB, tem a ligação à BD e os metodos Construct, setParams, bindParam, query e select.
+
+Dado que a pasta vendor foi alterada pela inclusao da hcodebr, temos que no gitbash executar o comando "composer dump-autoload" por forma a gerar de novo os autoloads.
+
+- Alterado o index.php (comentada a linha existente e adicionado a seguir)
+
+- Alterado o composer incluindo "Hcode\\": na ultima linha, que indica em que vendor estao as classes (é o namaspace da classe Sql).
