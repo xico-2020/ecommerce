@@ -12,12 +12,13 @@ class Page {
 		"data"=>[]   // dados que vao passar para o template (tambem um array)
 	];
 
-	public function __construct($opts = array()) {    // As variaveis vao passando conforme as rotas do SLIM e dependendo da rota é que se vao passar os dados para a classe Page. Define-se para isso uma variavel $opts que é um array, mesmo que náo passe nada.
+
+	public function __construct($opts = array(), $tpl_dir = "/views/") {    // As variaveis vao passando conforme as rotas do SLIM e dependendo da rota é que se vao passar os dados para a classe Page. Define-se para isso uma variavel $opts que é um array, mesmo que náo passe nada. Segundo parametro ($tpl_dir) indica que por padrao, se nao indicar nada é o diretorio views.
 
 		$this->options = array_merge($this->defaults, $opts);  // array_merge junta dois arrays. e o ultimo subscreve os anteriores. Como quero que o valor passado no construct ($opts) subscreva o $defaults. Se houver conflito, vale o $opts. Se não houver conflito todos os valores são guardados no $options.
 		
 		$config = array(                                                // tpl (templates) precisa de uma pasta para os arquivos HTML e outra para a cache. 
-			"tpl_dir"       => $_SERVER["DOCUMENT_ROOT"]."/views/",      //  A  partir do nosso diretorio de root do nosso projeto vai procurar a pasta ..., Para isso uso varivavel de ambiente no Server que é a "DOCUMENT_ROOT" que traz essa pasta. Depois indico a pasta onde estão os templates. A seguir o mesmo para cache.
+			"tpl_dir"       => $_SERVER["DOCUMENT_ROOT"]. $tpl_dir,      //  A  partir do nosso diretorio de root do nosso projeto vai procurar a pasta ..., Para isso uso varivavel de ambiente no Server que é a "DOCUMENT_ROOT" que traz essa pasta. Depois indico a pasta onde estão os templates. A seguir o mesmo para cache.
 			"cache_dir"     => $_SERVER["DOCUMENT_ROOT"]."/views-cache/",
 			"debug"         => false // set to false to improve the speed
 		);

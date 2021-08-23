@@ -52,10 +52,10 @@
                     <div class="header-right">
                         <ul class="list-unstyled list-inline">
                             <li class="dropdown dropdown-small">
-                                <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" href="#"><span class="key">moeda :</span><span class="value">BRL </span><b class="caret"></b></a>
+                                <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" href="#"><span class="key">moeda :</span><span class="value">EUR </span><b class="caret"></b></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="#">BRL</a></li>
-                                    <li><a href="#">USD</a></li>
+                                    <li><a href="#">EUR</a></li>
+                                    <li><a href="#">---</a></li>
                                 </ul>
                             </li>
 
@@ -85,8 +85,7 @@
                 
                 <div class="col-sm-6">
                     <div class="shopping-item">
-                        <a href="carrinho.html">Carrinho - <span class="cart-amunt">R$100</span> <i class="fa fa-shopping-cart"></i> <span class="product-count">5</span></a>
-                    </div>
+                        <a href="carrinho.html">Carrinho - <span class="cart-amunt">€100</span> <i class="fa fa-shopping-cart"></i> <span class="product-count">5</span></a> </div>
                 </div>
             </div>
         </div>

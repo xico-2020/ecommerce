@@ -35,7 +35,7 @@
 						  <h2 class="caption title">
 								Apple <span class="primary">Store <strong>Ipod</strong></span>
 							</h2>
-							<h4 class="caption subtitle">& Phone</h4>
+							<h4 class="caption subtitle">& Phones</h4>
 							<a class="caption button-radius" href="#"><span class="icon"></span>Comprar</a>
 						</div>
 					</li>
@@ -57,7 +57,7 @@
                 <div class="col-md-3 col-sm-6">
                     <div class="single-promo promo2">
                         <i class="fa fa-truck"></i>
-                        <p>Frete grátis</p>
+                        <p>Transporte grátis</p>
                     </div>
                 </div>
                 <div class="col-md-3 col-sm-6">
@@ -96,7 +96,7 @@
                                 <h2><a href="#">Samsung Galaxy s5- 2015</a></h2>
                                 
                                 <div class="product-carousel-price">
-                                    <ins>$700.00</ins> <del>$100.00</del>
+                                    <ins>€700.00</ins> <del>€1000.00</del>
                                 </div> 
                             </div>
                             <div class="single-product">
@@ -110,7 +110,7 @@
                                 
                                 <h2>Nokia Lumia 1320</h2>
                                 <div class="product-carousel-price">
-                                    <ins>$899.00</ins> <del>$999.00</del>
+                                    <ins>€899.00</ins> <del>€999.00</del>
                                 </div> 
                             </div>
                             <div class="single-product">
@@ -125,7 +125,7 @@
                                 <h2>LG Leon 2015</h2>
 
                                 <div class="product-carousel-price">
-                                    <ins>$400.00</ins> <del>$425.00</del>
+                                    <ins>€400.00</ins> <del>€425.00</del>
                                 </div>                                 
                             </div>
                             <div class="single-product">
@@ -140,7 +140,7 @@
                                 <h2><a href="#">Sony microsoft</a></h2>
 
                                 <div class="product-carousel-price">
-                                    <ins>$200.00</ins> <del>$225.00</del>
+                                    <ins>€200.00</ins> <del>€225.00</del>
                                 </div>                            
                             </div>
                             <div class="single-product">
@@ -155,7 +155,7 @@
                                 <h2>iPhone 6</h2>
 
                                 <div class="product-carousel-price">
-                                    <ins>$1200.00</ins> <del>$1355.00</del>
+                                    <ins>€1200.00</ins> <del>€1355.00</del>
                                 </div>                                 
                             </div>
                             <div class="single-product">
@@ -170,7 +170,7 @@
                                 <h2><a href="#">Samsung gallaxy note 4</a></h2>
 
                                 <div class="product-carousel-price">
-                                    <ins>$400.00</ins>
+                                    <ins>€400.00</ins>
                                 </div>                            
                             </div>
                         </div>

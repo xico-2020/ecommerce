@@ -16,3 +16,6 @@ Dado que a pasta vendor foi alterada pela inclusao da hcodebr, temos que no gitb
 - Alterado o index.php (comentada a linha existente e adicionado a seguir)
 
 - Alterado o composer incluindo "Hcode\\": na ultima linha, que indica em que vendor estao as classes (é o namaspace da classe Sql).
+
+
+- AdminLTE : Site para gerar aula 105 - Configuracao do Template Admin.
