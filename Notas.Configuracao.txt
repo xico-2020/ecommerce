@@ -13,7 +13,9 @@ CONFIGURAÇÂO PROJETO
 
 Dado que a pasta vendor foi alterada pela inclusao da hcodebr, temos que no gitbash executar o comando "composer dump-autoload" por forma a gerar de novo os autoloads.
 
-- Alterado o index.php (comentada a linha existente e adicionado a seguir)
+- Alterado o index.php (comentada a linha existente e adicionado a seguir).
+
+- Configurar Admin : pasta res\admin colocados todos os conteudos para o efeito. Se correr o starter.html é o site mais limpo que obtenho.
 
 - Alterado o composer incluindo "Hcode\\": na ultima linha, que indica em que vendor estao as classes (é o namaspace da classe Sql).
 

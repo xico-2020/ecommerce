@@ -40,7 +40,7 @@ $app->get('/admin/', function() {   // criacao de rota "/admin". Eata rota é pa
     
 });
 
-$app->get('/admin/login', function() {   // criacao de rota "/admin/login". Eata rota é para a pagina de login. Como não tem header e footer, desabilito-os para nao serem chamados
+$app->get('/admin/login', function() {   // criacao de rota "/admin/login". Esta rota é para a pagina de login. Como não tem header e footer, desabilito-os para nao serem chamados
 
 	$page = new PageAdmin([
 		"header=>false",
@@ -65,6 +65,111 @@ $app->get('/admin/logout', function() {
 	header("Location: /admin/login");
 	exit;
 });
+
+$app->get("/admin/users", function() {
+
+	User::verifyLogin();
+
+	$users = User::listAll();
+
+	$page = new PageAdmin();  // criar $page que recebe o construtor vazio. Chama o construct e adiciona o header no ecran.
+
+	$page->setTpl("users", array(
+		"users"=>$users
+	));   // Adiciona o template "users" que está em views/admin.
+});
+
+
+$app->get("/admin/users/create", function() {
+
+	User::verifyLogin();
+
+	$page = new PageAdmin();  // criar $page que recebe o construtor vazio. Chama o construct e adiciona o header no ecran.
+
+	$page->setTpl("users-create");   // Adiciona o template "users" que está em views/admin.
+});
+
+
+
+$app->get("/admin/users/:iduser/delete", function($iduser) {  //ATENCAO. Por causa da interpretacao do SLIM tenho que colocar a rota mais comprida primeiro para a executar. Neste caso compara ":iduser/delete" com ":iduser" abaixo.
+
+	User::verifyLogin();
+
+	$user = new User();
+
+	$user->get((int)$iduser);
+
+	$user->delete();
+
+	header("Location: /admin/users");
+
+	exit;
+
+
+
+});
+
+
+$app->get("/admin/users/:iduser", function($iduser) {  //Rota para Update. Neste caso passa o ID para mostrar os campos preenchidos.
+
+	User::verifyLogin();
+	
+	$user = new User();
+	$user->get((int)$iduser);   // convertido para numerico.
+
+	$page = new PageAdmin();  // criar $page que recebe o construtor vazio. Chama o construct e adiciona o header no ecran.
+
+	$page->setTpl("users-update", array(
+		"user"=> $user->getValues()
+	));
+});
+
+
+$app->post("/admin/users/create", function() {
+
+	User::verifyLogin();
+
+	$user = new User();
+
+	$_POST["inadmin"] = (isset($_POST["inadmin"]))?1:0;
+
+	$user->setData($_POST);
+
+	$user->save();
+
+	header("Location: /admin/users");
+
+	exit;
+
+});
+
+
+$app->post("/admin/users/:iduser", function($iduser) {
+
+	User::verifyLogin();
+
+	$user = new User();
+
+	$_POST["inadmin"] = (isset($_POST["inadmin"]))?1:0;
+
+	$user->get((int)$iduser);
+
+	$user->setData($_POST);
+
+	$user->update();
+
+	header("Location: /admin/users");
+
+	exit;
+
+
+});
+
+
+
+
+
+
 
 $app->run();   // mandar executar
 

@@ -10,7 +10,7 @@ class Model {
 
 		$method = substr($name, 0, 3);  // Para saber se é metodo GET ou SET. Comeca na posicao 0 quantos caracteres lê.
 
-		$fieldName = substr($namw, 3, strlen($name)); // Para saber qual é o campo. Comeca na posicao 3 e vai ate ao fim.
+		$fieldName = substr($name, 3, strlen($name)); // Para saber qual é o campo. Comeca na posicao 3 e vai ate ao fim.
 
 		switch ($method)
 		{
