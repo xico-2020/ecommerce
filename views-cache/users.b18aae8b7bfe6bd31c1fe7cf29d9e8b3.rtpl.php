@@ -3,11 +3,11 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
   <h1>
-    Lista de Usuários
+    Lista de Utilizadores
   </h1>
   <ol class="breadcrumb">
     <li><a href="/admin"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li class="active"><a href="/admin/users">Usuários</a></li>
+    <li class="active"><a href="/admin/users">Utilizadores</a></li>
   </ol>
 </section>
 
@@ -19,7 +19,7 @@
   		<div class="box box-primary">
             
             <div class="box-header">
-              <a href="/admin/users/create" class="btn btn-success">Inserir Usuário</a>
+              <a href="/admin/users/create" class="btn btn-success">Inserir Utilizador</a>
             </div>
 
             <div class="box-body no-padding">

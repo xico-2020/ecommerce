@@ -322,7 +322,17 @@ $app->post("/admin/categories/:idcategory", function($idcategory){
 
 }); 
 
+$app->get("/categories/:idcategory", function($idcategory) {
+	$category = new Category();
+	$category->get((int)$idcategory);
+	$page = new Page();  // criar $page que recebe o construtor vazio. Chama o construct e adiciona o header no ecran.
 
+	$page->setTpl("category", [
+		"category"=>$category->getValues(),
+		"products"=>[]
+	]);  
+
+});
 
 
 
