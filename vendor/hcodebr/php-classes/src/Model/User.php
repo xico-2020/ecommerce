@@ -26,22 +26,22 @@ class User extends Model
 		if (count($results) === 0)
 		{
 			return false;
-			throw new \Exception("Usuário inexistente ou senha inválida.");  // \Exception porqu está no namespace principal e nao no Hcode.
+			throw new \Exception("Usuário inexistente ou senha inválida.");  // \Exception porque está no namespace principal e nao no Hcode.
 		}
 
 		$data = $results[0];  // os dados do usuario é igual ao $results na posicao 0 (primeiro registo encontrado).
 
-		if (password_verify($password, $data["despassword"]) === true)
+		if (password_verify($password, $data["despassword"]) === true)  // $password foi a inserida, $data[despassword] é a password na BD que está encriptada. A funcao password_verify desencripta e compara texto.
 		{
 			$user = new User();  // Aqui se tudo estiver certo estamos a criar uma instancia da propria classe.
 
-			$user->setData($data);
-			$_SESSION[User::SESSION] = $user->getValues();
+			$user->setData($data);  // ver classe Model
+			$_SESSION[User::SESSION] = $user->getValues();  // carrega os dados do usuario como array. Vai buscar ao objeto.
 
 			return $user;
 
 		} else{
-			throw new \Exception("Usuário inexistente ou senha inválida.");
+			throw new \Exception("<strong>Utilizador inexistente, sem permissões ou senha inválida!</strong>");
 		}
 	}
 
@@ -52,9 +52,9 @@ class User extends Model
 			||
 			!$_SESSION[User::SESSION]  // Se for vazia
 			||
-			!(int)$_SESSION[User::SESSION]["iduser"] > 0  // se o Id usuario não for > 0
+			!(int)$_SESSION[User::SESSION]["iduser"] > 0  // se o Id usuario não for > 0 (for vazio)
 			||
-			(bool)$_SESSION[User::SESSION]["inadmin"] !== $inadmin  // Se pode acessar como administracao.
+			(bool)$_SESSION[User::SESSION]["inadmin"] !== $inadmin  // Só pode acessar como administracao.
 		) {
 			header("Location: /admin/login");
 			exit;
@@ -83,13 +83,13 @@ class User extends Model
 		$sql = new Sql();
 
 		$results = $sql->select("CALL sp_users_save(:desperson, :deslogin, :despassword, :desemail, :nrphone, :inadmin)", array(
-			":desperson"=>$this->getdesperson(),
+			":desperson"=>$this->getdesperson(),    // :desperson - Associa com a chave. O setData em Model descodifica os gets...
 			":deslogin"=>$this->getdeslogin(),
 			":despassword"=>$this->getdespassword(),
 			":desemail"=>$this->getdesemail(),
 			":nrphone"=>$this->getnrphone(),
 			":inadmin"=>$this->getinadmin()
-		)); // chamada de procedure (ver mySql Workbench).
+		)); // chamada de procedure (ver mySql Workbench).  Vai buscar os dados e traz de volta.
 
 	
 		$this->setData($results[0]);
@@ -137,8 +137,11 @@ class User extends Model
 
 		$sql = new Sql();
 
-		$results = $sql->select("CALL sp_users_delete(:iduser)", array(
+		$sql->query("CALL sp_users_delete(:iduser)", array(
 			":iduser"=>$this->getiduser()
+
+		//$results = $sql->select("CALL sp_users_delete(:iduser)", array(
+		//	":iduser"=>$this->getiduser()
 			
 		)); // chamada de procedure (ver mySql Workbench).
 
@@ -201,7 +204,7 @@ class User extends Model
 
 				$mailer->send();
 
-				return $data;
+				return $data;  // retorna os dados do usuario recuperado para o caso de vir a ser preciso.
 
 			}
 		}
@@ -243,7 +246,7 @@ class User extends Model
 	    }
 	    else
 	    {
-	        return $results[0];
+	        return $results[0];   // devolve os dados do usuario.
 	    }
  	}
 

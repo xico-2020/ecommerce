@@ -57,7 +57,7 @@ class Category extends Model
 
 	}
 
-	public static function updateFile()
+	public static function updateFile()  // rotina que faz com que as categorias no ecran principal aparecam em funcao das que existem na tabela de categorias. (category.html - {loop="$products"}).
 	{
 		$categories = Category::listAll();
 

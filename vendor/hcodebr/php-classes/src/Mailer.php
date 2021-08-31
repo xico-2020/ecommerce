@@ -31,11 +31,11 @@ class Mailer {
 
 		$tpl = new Tpl;
 
-		foreach ($data as $key => $value) {
-			$tpl->assign($key, $value);
+		foreach ($data as $key => $value) {  // Passar dados para o template que estão na variavel $data. assign é o metodo que está na classe Page metodo setData.
+			$tpl->assign($key, $value);   // cria as variaveis dentro do template.
 		}
 
-		$html = $tpl->draw($tplName, true);
+		$html = $tpl->draw($tplName, true);   // true é para colocar o valor de $tplName na variavel $html e nao no ecran.
 
 
 		$this->mail = new \PHPMailer;
@@ -105,7 +105,7 @@ class Mailer {
 
 		//Read an HTML message body from an external file, convert referenced images to embedded,
 		//convert HTML into a basic plain-text alternative body
-		$this->mail->msgHTML($html);
+		$this->mail->msgHTML($html);        // $html - variavel preenchida com o template acima no código.
 		//$this->mail->msgHTML($html);
 
 		//Replace the plain text body with one created manually
