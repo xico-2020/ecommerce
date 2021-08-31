@@ -77,7 +77,7 @@ class Product extends Model
 		return $this->setdesphoto($url);
 	}
 
-	public function getValues()
+	public function getValues()   // este getValues sobreescreve o getValues de Model para carregar a foto que não está guardada na base de dados mas sim num diretorio especifico, ou entao é carregada de um lugar e então guardada no diretório próprio.
 	{
 		$this->checkPhoto();
 
@@ -104,6 +104,9 @@ class Product extends Model
 			case "png":
 			$image = imagecreatefrompng($file["tmp_name"]);
 			break;
+
+			default:
+			throw new \Exception("<strong>Tipo de ficheiro inválido. Deve ser do tipo jpg, jpeg, gif ou png</strong>");
 		}
 
 		$dist = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR .

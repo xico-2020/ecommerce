@@ -23,7 +23,7 @@
         </div>
         <!-- /.box-header -->
         <!-- form start -->
-        <form role="form" action="/admin/products/create" method="post">
+        <form role="form" action="/admin/products/create" method="post" enctype="multipart/form-data">
           <div class="box-body">
             <div class="form-group">
               <label for="desproduct">Nome da produto</label>
@@ -50,8 +50,12 @@
               <input type="number" class="form-control" id="vlweight" name="vlweight" step="0.01" placeholder="0.00">
             </div>
             <div class="form-group">
-              <label for="vlweight">URL</label>
-              <input type="url" class="form-control" id="desurl" name="desurl">
+              <label for="desurl">URL</label>
+              <input type="text" class="form-control" id="desurl" name="desurl">
+            </div>
+            <div class="form-group">
+              <label for="file">Foto</label>
+              <input type="file" class="form-control" id="file" name="file">              
             </div>
           </div>
           <!-- /.box-body -->
