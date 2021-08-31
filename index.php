@@ -16,6 +16,7 @@ $app = new Slim();  // Para usar as rotas
 $app->config('debug', true);   // configuracao do debug para mostrar os erros
 
 require_once("site.php");
+require_once("functions.php");
 require_once("admin.php");
 require_once("admin-users.php");
 require_once("admin-categories.php");

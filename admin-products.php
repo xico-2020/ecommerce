@@ -35,7 +35,6 @@ $app->post("/admin/products/create", function(){
 
 	$product = new Product();
 	$product->setData($_POST);
-	//$product->save();
 
 	 if($_FILES["file"]["name"] !== "") $product->setPhoto($_FILES['file']);  // para guardar a foto.
 

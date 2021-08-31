@@ -16,6 +16,20 @@ class Product extends Model
 
 	}
 
+	public static function checkList($list)  // funcao criada para passar o valor desphoto. Este campo era usado na criacao ou update de Produto em checkPhoto(). Como para o index.html na raiz nao está a passar pelo getValues o desphoto. O listAll só traz dados da BD e como o desphoto não está na BD temos que criar uma "camada" que vai tratar e retornar os objetos (fotos).
+
+	{
+		foreach($list as &$row) {    
+
+			$p = new Product();
+			$p->setData($row);
+			$row = $p->getValues();  // Aqui já tem os valores . Coloca-os en $row que como em cima tem &$row, substitui os valores em cima e coloca-os em $list.
+		} 
+
+		return $list;  // retorna $list com os dados de cada produto já formatado.
+	}
+
+
 	public function save()
 	{
 
@@ -71,7 +85,7 @@ class Product extends Model
 		)) {
 			$url = "/res/site/img/products/" . $this->getidproduct() . ".jpg";  // Uso / em vez de DIRECTORY_SEPARATOR, porque aqui é uma URL e não um caminho para a pasta.
 		} else {
-			$url = "/res/site/img/product.jpg";
+			$url = "/res/site/img/products.jpg";
 		}
 
 		return $this->setdesphoto($url);
