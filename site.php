@@ -2,6 +2,7 @@
 
 use \Hcode\Page;
 use \Hcode\Model\Product;
+use \Hcode\Model\Category;
 
 $app->get('/', function() {   // criacao de rota "/"
 
@@ -19,6 +20,22 @@ $app->get('/', function() {   // criacao de rota "/"
 	//echo json_encode($results);
 
 });
+
+
+$app->get("/categories/:idcategory", function($idcategory) {
+
+	$category = new Category();
+	$category->get((int)$idcategory);
+	$page = new Page();  // criar $page que recebe o construtor vazio. Chama o construct e adiciona o header no ecran.
+
+	$page->setTpl("category", [
+		"category"=>$category->getValues(),
+		"products"=>Product::checkList($category->getProducts())
+	]);  
+
+});
+
+
 
 
  ?>
