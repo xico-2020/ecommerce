@@ -23,7 +23,7 @@ class Product extends Model
 
 			$p = new Product();
 			$p->setData($row);
-			$row = $p->getValues();  // Aqui já tem os valores . Coloca-os en $row que como em cima tem &$row, substitui os valores em cima e coloca-os em $list.
+			$row = $p->getValues();  // Aqui já tem os valores . Coloca-os en $row que como em cima tem &$row, substitui os valores em cima e coloca-os em $list (é a Manipulação da memória).
 		} 
 
 		return $list;  // retorna $list com os dados de cada produto já formatado.
@@ -85,8 +85,8 @@ class Product extends Model
 		)) {
 			$url = "/res/site/img/products/" . $this->getidproduct() . ".jpg";  // Uso / em vez de DIRECTORY_SEPARATOR, porque aqui é uma URL e não um caminho para a pasta.
 		} else {
-			$url = "/res/site/img/products.jpg";
-		}
+			$url = "/res/site/img/product.jpg";
+		}	
 
 		return $this->setdesphoto($url);
 	}
@@ -103,44 +103,49 @@ class Product extends Model
 
 	public function setPhoto($file)
 	{
-		$extension = explode(".", $file["name"]);  // agarra o nome do arquivo onde tem . e faz um array dele.
-		$extension = end($extension); // informo que a $extension é só a ultima posicao do array.
-		switch ($extension) {
-			case "jpg":
-			case "jpeg":
-			$image = imagecreatefromjpeg($file["tmp_name"]);  // passa a variavel $file que veio no parametro com o array  ["tmp_name"] que é o mome temporário do arquivo que está no servidor.
-			break;
+		if (empty($file["name"]))
+		{
+			$this->checkPhoto();
+		} else 
+			{
+				$extension = explode(".", $file["name"]);  // agarra o nome do arquivo onde tem . e faz um array dele.
 
-			case "gif":
-			$image = imagecreatefromgif($file["tmp_name"]);
-			break;
+				$extension = end($extension); // informo que a $extension é só a ultima posicao do array.
+				switch ($extension) {
+					case "jpg":
+					case "jpeg":
+					$image = imagecreatefromjpeg($file["tmp_name"]);  // passa a variavel $file que veio no parametro com o array  ["tmp_name"] que é o mome temporário do arquivo que está no servidor.
+					break;
 
-			case "png":
-			$image = imagecreatefrompng($file["tmp_name"]);
-			break;
+					case "gif":
+					$image = imagecreatefromgif($file["tmp_name"]);
+					break;
 
-			default:
-			throw new \Exception("<strong>Tipo de ficheiro inválido. Deve ser do tipo jpg, jpeg, gif ou png</strong>");
-		}
+					case "png":
+					$image = imagecreatefrompng($file["tmp_name"]);
+					break;
+					
+					default:
+					throw new \Exception("<strong>Tipo de ficheiro inválido. Deve ser do tipo jpg, jpeg, gif ou png</strong>");
+					}
 
-		$dist = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR .
-			"res" . DIRECTORY_SEPARATOR .
-			"site" . DIRECTORY_SEPARATOR .
-			"img" . DIRECTORY_SEPARATOR .
-			"products" . DIRECTORY_SEPARATOR .
-			$this->getidproduct() . ".jpg";
-
-		imagejpeg($image, $dist);  // gerar imagem.jpg no diretorio e nome de ficheiro $dist.
-
-		imagedestroy($image);
-
-		$this->checkPhoto();  // para carregar o dado da memoria para o desphoto.
+				$dist = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR .
+					"res" . DIRECTORY_SEPARATOR .
+					"site" . DIRECTORY_SEPARATOR .
+					"img" . DIRECTORY_SEPARATOR .
+					"products" . DIRECTORY_SEPARATOR .
+					$this->getidproduct() . ".jpg";
 
 
+				imagejpeg($image, $dist);  // gerar imagem.jpg no diretorio e nome de ficheiro $dist.
+
+				imagedestroy($image);
+
+				$this->checkPhoto();  // para carregar o dado da memoria para o desphoto.
+
+			}	
 
 	}
-
-
 
 
 }
