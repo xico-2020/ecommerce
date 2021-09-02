@@ -14,6 +14,49 @@ class User extends Model
 
 	const SECRET = "HcodePhp7_Secret";
 
+	public static function getFromSession()
+	{
+		$user = new User();
+
+		if (isset($_SESSION[User::SESSION]) && (int)$_SESSION[User::SESSION]["iduser"] > 0) {
+
+			$user->setData($_SESSION[User::SESSION]);
+		}
+
+		return $user;
+	}
+
+	public static function checkLogin($inadmin = true)
+	{
+		if (
+			!isset($_SESSION[User::SESSION])   // Se nao existir
+			||
+			!$_SESSION[User::SESSION]  // Se for vazia
+			||
+			!(int)$_SESSION[User::SESSION]["iduser"] > 0  // se o Id usuario não for > 0 (for vazio)
+		) {
+			// não está logado
+			return false;
+
+		} else {
+
+			if($inadmin === true && (bool)$_SESSION[User::SESSION]["inadmin"]===true) {  // está logado e é administrador
+
+				return true;
+
+			} else if ($inadmin === false) {      // está logado mas não é administrador.
+
+				return true;
+
+			} else {
+
+				return false;
+
+			}
+
+		}
+	}
+
 	public static function login($login, $password)    // Método que verifica se o que foi digitado existe na BD.
 	{
 
@@ -47,15 +90,7 @@ class User extends Model
 
 	public static function verifyLogin($inadmin = true)
 	{
-		if (
-			!isset($_SESSION[User::SESSION])   // Se nao existir
-			||
-			!$_SESSION[User::SESSION]  // Se for vazia
-			||
-			!(int)$_SESSION[User::SESSION]["iduser"] > 0  // se o Id usuario não for > 0 (for vazio)
-			||
-			(bool)$_SESSION[User::SESSION]["inadmin"] !== $inadmin  // Só pode acessar como administracao.
-		) {
+		if (!User::checkLogin($inadmin)) {
 			header("Location: /admin/login");
 			exit;
 		}

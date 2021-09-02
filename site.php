@@ -3,6 +3,7 @@
 use \Hcode\Page;
 use \Hcode\Model\Product;
 use \Hcode\Model\Category;
+use \Hcode\Model\Cart;
 
 $app->get('/', function() {   // criacao de rota "/"
 
@@ -64,6 +65,15 @@ $app->get("/products/:desurl", function($desurl) {
 		"categories"=>$product->getCategories()
 	]);
 });
+
+
+$app->get("/cart", function(){
+	$cart = Cart::getFromSession();
+	$page = new Page();
+	$page->setTpl("cart");
+});
+
+
 
 
  ?>
