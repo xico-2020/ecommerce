@@ -69,9 +69,77 @@ $app->get("/products/:desurl", function($desurl) {
 
 $app->get("/cart", function(){
 	$cart = Cart::getFromSession();
+
 	$page = new Page();
-	$page->setTpl("cart");
+
+	$page->setTpl("cart", [
+		"cart"=>$cart->getValues(),      // passa as informacoes do carrinho
+		"products"=>$cart->getProducts()  // passa os produtos
+	]);
 });
+
+
+
+$app->get("/cart/:idproduct/add", function($idproduct){
+
+	$product = new Product();
+
+	$product->get((int)$idproduct);
+
+	$cart = Cart::getFromSession();     // método que tem a inteligencia de recuperar o carrinho da sessão ou gerar um novo.
+
+	$qtd = (isset($_GET['qtd'])) ? (int)$_GET['qtd'] : 1;  // Se a variavel $qtd vier diferente de 1 é esse valor senao é 1.
+
+	for ($i = 0; $i < $qtd; $i++) {
+
+		$cart->addProduct($product);  // $cart (carrinho) recebe uma instancia de Produtos.
+	}
+
+	
+
+	header("Location:/cart");    // depois de adicionar redireciona para o separador /cart para ver como ficou o carrinho.
+
+	exit;
+
+
+});
+
+
+$app->get("/cart/:idproduct/minus", function($idproduct){   // minus porque só quero remover 1
+
+	$product = new Product();
+
+	$product->get((int)$idproduct);
+
+	$cart = Cart::getFromSession();     // recuperar o carrinho da sessão.
+
+	$cart->removeProduct($product);   // como por padrão a remocao de todos é false não preciso de passar essa informacao (parametro).
+
+	header("Location:/cart");    // depois de adicionar redireciona para o separador /cart para ver como ficou o carrinho.
+
+	exit;
+
+
+});
+
+
+$app->get("/cart/:idproduct/remove", function($idproduct){   // minus porque só quero remover 1
+
+	$product = new Product();
+
+	$product->get((int)$idproduct);
+
+	$cart = Cart::getFromSession();     // recuperar o carrinho da sessão.
+
+	$cart->removeProduct($product, true);  // Para todos tenho que passar mais uma variavel com true pois por padrão a remocao para todos é false
+
+	header("Location:/cart");    // depois de adicionar redireciona para o separador /cart para ver como ficou o carrinho.
+
+	exit;
+
+
+});
+
 
 
 
