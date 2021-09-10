@@ -72,9 +72,13 @@ $app->get("/cart", function(){
 
 	$page = new Page();
 
+	//var_dump($cart->getValues());  Para ver as informacoes retornadas do carrinho em $cart.
+	//exit;
+
 	$page->setTpl("cart", [
 		"cart"=>$cart->getValues(),      // passa as informacoes do carrinho
-		"products"=>$cart->getProducts()  // passa os produtos
+		"products"=>$cart->getProducts(), // passa os produtos
+		"error"=>Cart::getMsgError()  // passa a mensagem de erro se houver
 	]);
 });
 
@@ -95,7 +99,8 @@ $app->get("/cart/:idproduct/add", function($idproduct){
 		$cart->addProduct($product);  // $cart (carrinho) recebe uma instancia de Produtos.
 	}
 
-	
+	//Location:/cart#table-cart
+	//Location:/cart	
 
 	header("Location:/cart");    // depois de adicionar redireciona para o separador /cart para ver como ficou o carrinho.
 
@@ -137,10 +142,20 @@ $app->get("/cart/:idproduct/remove", function($idproduct){   // minus porque só
 
 	exit;
 
-
 });
 
 
+$app->post("/cart/freight", function() {
+
+	$cart = Cart::getFromSession();
+
+	$cart->setFreight($_POST['zipcode']);  // zipcode é o name no cart.html onde é chamado o CEP
+
+	header("Location:/cart");    // depois de adicionar redireciona para o separador /cart para ver como ficou o carrinho.
+
+	exit;
+
+});
 
 
 
