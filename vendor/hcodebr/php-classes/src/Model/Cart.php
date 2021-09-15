@@ -202,6 +202,7 @@ class Cart extends Model
 
 		if ($totals['nrqtd'] > 0)  // verificar se existe alguma coisa no carrinho
 		{
+			/*
 			if($totals['vlheight'] < 2) $totals['vlheight'] = 2;
 			if($totals['vllength'] < 16) $totals['vllength'] = 16;
 
@@ -241,10 +242,15 @@ class Cart extends Model
 			$this->setnrdays($result->PrazoEntrega);
 			$this->setvlfreight(Cart::formatValueToDecimal($result->Valor));
 			$this->setdeszipcode($nrzipcode);
+			*/
+
+			$this->setnrdays(3);
+			$this->setvlfreight(7.65);
+			$this->setdeszipcode($nrzipcode);
 
 			$this->save();
 
-			return $result;  // faz o return pois pode ser preciso obter informacao fora do metodo.
+			//return $result;  // faz o return pois pode ser preciso obter informacao fora do metodo.
 
 		} else
 			{
