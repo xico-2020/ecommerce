@@ -366,7 +366,7 @@ class User extends Model
 
 	public static function getErrorRegister()
 	{
-		$msg = (isset($_SESSION[User::ERROR_REGISTER]) && $_SESSION[User::ERROR_REGISTER]) ? $_SESSION[User::ERROR_REGISTER] : "";
+		$msg = (isset($_SESSION[User::ERROR_REGISTER]) && $_SESSION[User::ERROR_REGISTER]) ? $_SESSION[User::ERROR_REGISTER] : "";  // verifica se está na sessão e se não é vazio (se existe). Se existir retorna ele mesmo, caso contrário retorna espacos.
 
 		User::clearErrorRegister();
 
@@ -388,7 +388,7 @@ class User extends Model
 			":deslogin"=>$login
 		]);
 
-		return (count($results) > 0);
+		return (count($results) > 0);  // retorna se for maior que zero. É porque existe um login igual.
 	}
 
 

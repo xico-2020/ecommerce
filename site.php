@@ -179,7 +179,9 @@ $app->get("/login", function() {
 
 	$page = new Page();
 	$page->setTpl("login", [
-		'error'=>User::getError()    // passa o erro para o template
+		'error'=>User::getError(),    // passa o erro para o template
+		'errorRegister'=>User::getErrorRegister(),
+		'registerValues'=>(isset($_SESSION['registerValues'])) ? $_SESSION['registerValues'] : ['name'=>'', 'email'=>'', 'phone'=>'']
 	]);
 });
 
@@ -212,6 +214,74 @@ $app->get("/logout", function() {
 
 	exit;
 
+});
+
+
+$app->post("/register", function() {
+
+	$_SESSION["registerValues"] = $_POST;  // Criar sessao para guardar os valores dos campos digitados para nao serem perdidos em caso de erro de digitacao num deles (na validacao abaixo). Guarda por isso o array $_POST que é onde estao os valores.
+
+	if (!isset($_POST['name']) || $_POST['name'] == "") 
+		{
+			User::setErrorRegister("Preencha o seu nome.");
+			header("Location:/login");
+			exit;
+		}
+
+
+	if (!isset($_POST['email']) || $_POST['email'] == "") 
+		{
+			User::setErrorRegister("Preencha o seu E-mail.");
+			header("Location:/login");
+			exit;
+		}
+
+
+	
+	if (!isset($_POST['phone']) || $_POST['phone'] == "") 
+		{
+			User::setErrorRegister("Preencha o seu telefone.");
+			header("Location:/login");
+			exit;
+		}
+	
+
+	if (User::checkLoginExist($_POST['email']) === true)
+		{
+			User::setErrorRegister("Este endereco de e-mail já está a ser usado por outro utilizador!");
+			header("Location:/login");
+			exit;
+		}
+
+
+	if (!isset($_POST['password']) || $_POST['password'] == "") 
+		{
+			User::setErrorRegister("Preencha a sua senha.");
+			header("Location:/login");
+			exit;
+		}
+
+
+	$user = new User();
+
+	$user->setData([
+		'inadmin'=>0,
+		'deslogin'=>$_POST['email'],
+		'desperson'=>$_POST['name'],
+		'desemail'=>$_POST['email'],
+		'despassword'=>$_POST['password'],
+		'nrphone'=>$_POST['phone']
+	]);
+
+	$user->save();
+
+	User::login($_POST['email'], $_POST['password']);  // como estou a fazer o registo faco logo o login.
+
+	//$_SESSION["registerValues"] = "['name'=>'', 'email'=>'', 'phone'=>'']";
+
+	header("Location:/checkout");
+
+	exit;
 });
 
 
