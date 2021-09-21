@@ -285,4 +285,111 @@ $app->post("/register", function() {
 });
 
 
+// -------------- Forgot passoword ----
+
+
+
+$app->get("/forgot", function() {
+
+	$page = new Page();  // criar $page que recebe o construtor vazio. 
+
+	$page->setTpl("forgot");
+
+	/*
+	$page->setTpl("forgot", [
+	'errorRegister'=>User::getErrorRegister()
+	]); 	
+	*/
+
+});
+
+
+$app->post("/forgot", function() {
+	
+	/*
+	
+	if (!isset($_POST["email"]) || $_POST["email"] == "")
+		{
+			User::setErrorRegister("Digite um endereço de e-mail válido!");
+			header("Location:/forgot");
+			exit;
+		} 
+
+
+	if (User::checkLoginExist($_POST["email"]) === false)
+		{
+			User::setErrorRegister("E-mail inexistente na Base de Dados!");
+			header("Location:/forgot");
+			exit;
+					
+		} 
+
+
+	$user = User::getForgot($_POST["email"], false);
+
+	header("Location:/forgot/sent");
+
+	exit;
+	*/			
+
+	$_POST["email"] ;           //email corresponde ao "name" de email no forgot.html (views)
+
+	
+	$user = User::getForgot($_POST["email"], false);
+
+	header("Location:/forgot/sent");
+
+	exit;
+	
+});
+
+$app->get("/forgot/sent", function(){
+
+	$page = new Page();  // criar $page que recebe o construtor vazio. 
+
+	$page->setTpl("forgot-sent");   // forgot-sent é um Template html e está em views.
+
+
+});
+
+
+$app->get("/forgot/reset", function() {    // mostra o template para inserir a nova senha
+
+	$user = User::validForgotDecrypt($_GET["code"]);
+
+	$page = new Page();  // criar $page que recebe o construtor vazio. 
+
+	$page->setTpl("forgot-reset", array(      // passar os dados para o templte.
+		"name"=>$user["desperson"],
+		"code"=>$_GET["code"]
+	));   // forgot-reset é um Template html e está em views.
+});
+
+
+$app->post("/forgot/reset", function() {     // recebe e trata a senha introduzida
+
+
+	$forgot = User::validForgotDecrypt($_POST["code"]);  // verificar de novo para impedir tentativa intrusao.
+
+	User::setForgotUsed($forgot["idrecovery"]);   // metodo que informa que foi usada recuperacao.
+
+	$user = new User();
+
+	$user->get((int)$forgot["iduser"]);  // carrega o usuario passando um inteiro da variavel forgot posicao iduser
+	
+	$password = password_hash($_POST["password"], PASSWORD_DEFAULT, [
+		"cost"=>12
+	]);
+	
+	$user->setPassword($password);
+
+	$page = new Page();  // criar $page que recebe o construtor vazio. 
+
+	$page->setTpl("forgot-reset-success");   // sem array porque não é presiso passar nada. forgot-reset-sucess é um Template html e está em views.
+
+});
+
+
+
+
  ?>

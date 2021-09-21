@@ -18,6 +18,8 @@ class User extends Model
 
 	const ERROR_REGISTER = "UserErrorRegister";
 
+	//const ERROR_REGISTER1 = "UserErrorRegister1";
+
 	public static function getFromSession()
 	{
 		$user = new User();
@@ -222,7 +224,7 @@ class User extends Model
 
 		if (count($results) === 0)
 		{
-			throw new \Exception("Nao foi possivel recuperar a senha");
+			throw new \Exception("E-mail inexistente. Nao foi possivel recuperar a senha");
 		}
 		else
 		{
@@ -248,7 +250,7 @@ class User extends Model
              	if ($inadmin === true) {
                 	 $link = "http://www.fpauloecommerce.com.pt/admin/forgot/reset?code=$result";
              	} 	else {
-                 	$link = "http://www.fpauloecommerce.com.pt/admin/forgot/reset?code=$code";
+                 	$link = "http://www.fpauloecommerce.com.pt/forgot/reset?code=$result";
              	} 
 
 				//$link = "http://www.fpauloecommerce.com.pt/admin/forgot/reset?code=$code";
@@ -380,13 +382,40 @@ class User extends Model
 	}
 
 
+
+	/*
+	public static function setErrorRegister1($msg)
+	{
+		$_SESSION[User::ERROR_REGISTER1] = $msg;
+	}
+
+	public static function getErrorRegister1()
+	{
+		$msg = (isset($_SESSION[User::ERROR_REGISTER1]) && $_SESSION[User::ERROR_REGISTER1]) ? $_SESSION[User::ERROR_REGISTER1] : "";  // verifica se está na sessão e se não é vazio (se existe). Se existir retorna ele mesmo, caso contrário retorna espacos.
+
+		User::clearErrorRegister1();
+
+		return $msg;
+	}
+
+
+	public static function clearErrorRegister1()
+	{
+		$_SESSION[User::ERROR_REGISTER1] = NULL;
+	}
+
+	*/
+
+
+
 	public static function checkLoginExist($login)
 	{
 		$sql = new Sql();
- 
+
 		$results = $sql->select("SELECT * FROM tb_users WHERE deslogin = :deslogin", [ 
 			":deslogin"=>$login
 		]);
+
 
 		return (count($results) > 0);  // retorna se for maior que zero. É porque existe um login igual.
 	}
