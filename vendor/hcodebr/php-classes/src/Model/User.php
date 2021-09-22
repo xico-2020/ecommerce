@@ -18,7 +18,8 @@ class User extends Model
 
 	const ERROR_REGISTER = "UserErrorRegister";
 
-	//const ERROR_REGISTER1 = "UserErrorRegister1";
+	const SUCCESS = "UserSuccess";
+
 
 	public static function getFromSession()
 	{
@@ -180,6 +181,28 @@ class User extends Model
 			//":desperson"=>utf8_decode($this->getdesperson()),
 			":deslogin"=>$this->getdeslogin(),
 			":despassword"=>User::getPasswordHash($this->getdespassword()),
+			":desemail"=>$this->getdesemail(),
+			":nrphone"=>$this->getnrphone(),
+			":inadmin"=>$this->getinadmin()
+		)); // chamada de procedure (ver mySql Workbench).
+
+	
+		$this->setData($results[0]);
+
+	}
+
+
+	public function updateParcial()
+	{
+
+		$sql = new Sql();
+
+		$results = $sql->select("CALL sp_usersupdate_save(:iduser, :desperson, :deslogin, :despassword, :desemail, :nrphone, :inadmin)", array(
+			":iduser"=>$this->getiduser(),
+			":desperson"=>$this->getdesperson(),
+			//":desperson"=>utf8_decode($this->getdesperson()),
+			":deslogin"=>$this->getdeslogin(),
+			":despassword"=>$this->getdespassword(),
 			":desemail"=>$this->getdesemail(),
 			":nrphone"=>$this->getnrphone(),
 			":inadmin"=>$this->getinadmin()
@@ -359,6 +382,28 @@ class User extends Model
 	{
 		$_SESSION[User::ERROR] = NULL;
 	}
+
+
+		public static function setSuccess($msg)
+	{
+		$_SESSION[User::SUCCESS] = $msg;    //ERROR constante definida no principio da classe
+	}
+
+	public static function getSuccess()
+	{
+		$msg = (isset($_SESSION[User::SUCCESS]) && $_SESSION[User::SUCCESS]) ? $_SESSION[User::SUCCESS] : "";
+
+		User::clearSuccess();
+
+		return $msg;
+	}
+
+	public static function clearSuccess()
+	{
+		$_SESSION[User::SUCCESS] = NULL;
+	}
+
+
 
 
 	public static function setErrorRegister($msg)

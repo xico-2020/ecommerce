@@ -8,7 +8,7 @@
   <ol class="breadcrumb">
     <li><a href="/admin"><i class="fa fa-dashboard"></i> Home</a></li>
     <li><a href="/admin/users">Usuários</a></li>
-    <li class="active"><a href="/admin/users/create">Inserir Utilizador</a></li>
+    <li class="active"><a href="/admin/users/create">Novo Utilizador</a></li>
   </ol>
 </section>
 
@@ -53,7 +53,7 @@
           </div>
           <!-- /.box-body -->
           <div class="box-footer">
-            <button type="submit" class="btn btn-success">Criar</button>
+            <button type="submit" class="btn btn-success">Guardar</button>
           </div>
         </form>
       </div>

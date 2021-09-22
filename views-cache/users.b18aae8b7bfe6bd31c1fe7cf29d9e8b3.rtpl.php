@@ -19,7 +19,7 @@
   		<div class="box box-primary">
             
             <div class="box-header">
-              <a href="/admin/users/create" class="btn btn-success">Inserir Utilizador</a>
+              <a href="/admin/users/create" class="btn btn-success">Novo Utilizador</a>
             </div>
 
             <div class="box-body no-padding">

@@ -8,7 +8,7 @@
   <ol class="breadcrumb">
     <li><a href="/admin"><i class="fa fa-dashboard"></i> Home</a></li>
     <li><a href="/admin/categories">Categorias</a></li>
-    <li class="active"><a href="/admin/categories/create">Criar</a></li>
+    <li class="active"><a href="/admin/categories/create">Nova Categoria</a></li>
   </ol>
 </section>
 
@@ -32,7 +32,7 @@
           </div>
           <!-- /.box-body -->
           <div class="box-footer">
-            <button type="submit" class="btn btn-success">Criar</button>
+            <button type="submit" class="btn btn-success">Guardar</button>
           </div>
         </form>
       </div>

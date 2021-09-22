@@ -19,7 +19,7 @@
   		<div class="box box-primary">
             
             <div class="box-header">
-              <a href="/admin/products/create" class="btn btn-success">Registar Produto</a>
+              <a href="/admin/products/create" class="btn btn-success">Novo Produto</a>
             </div>
 
             <div class="box-body no-padding">

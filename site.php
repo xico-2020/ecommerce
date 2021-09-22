@@ -173,7 +173,29 @@ $app->get("/checkout", function() {
 	]);
 });
 
+/*
+$app->post("/checkout", function() {
 
+	User::verifyLogin(false);    // passa false para o parametro inadmin que por defeito é true. Esta rota só pode continuar se o utilizador estiver logado.
+
+	$order->setData([
+		'idcart'=>$cart->getidcart(),
+		'idadress'=>$adress->getidadress(),
+		'iduser'=>$user->getiduser(),
+		'idstatus'=>OrderStatus::EM_ABERTO,
+		'vltotal'=>$cart->getvltotal()
+	]);
+
+	$order->save();
+
+	$cart->removeSession();  // adicionado para que o carrinho não apareca quando se loga outro utilizador.
+
+	header("Location:/order/".$order->getidorder());
+
+	exit;
+	
+});
+*/
 
 $app->get("/login", function() {
 
@@ -307,8 +329,9 @@ $app->get("/forgot", function() {
 $app->post("/forgot", function() {
 	
 	/*
+	$_POST["email"] ;
 	
-	if (!isset($_POST["email"]) || $_POST["email"] == "")
+	if (!isset($_POST['email']) || $_POST['email'] === "")
 		{
 			User::setErrorRegister("Digite um endereço de e-mail válido!");
 			header("Location:/forgot");
@@ -316,7 +339,7 @@ $app->post("/forgot", function() {
 		} 
 
 
-	if (User::checkLoginExist($_POST["email"]) === false)
+	if (User::checkLoginExist($_POST['email']) === false)
 		{
 			User::setErrorRegister("E-mail inexistente na Base de Dados!");
 			header("Location:/forgot");
@@ -330,7 +353,8 @@ $app->post("/forgot", function() {
 	header("Location:/forgot/sent");
 
 	exit;
-	*/			
+		
+	*/	
 
 	$_POST["email"] ;           //email corresponde ao "name" de email no forgot.html (views)
 
@@ -340,6 +364,7 @@ $app->post("/forgot", function() {
 	header("Location:/forgot/sent");
 
 	exit;
+	
 	
 });
 
@@ -389,7 +414,80 @@ $app->post("/forgot/reset", function() {     // recebe e trata a senha introduzi
 
 });
 
+// -------------- Fim Forgot passoword ----
 
+
+$app->get("/profile", function(){
+
+	User::verifyLogin(false);  // não é administrador
+
+	$user = User::getFromSession();
+
+	$page = new Page();
+
+	$page->setTpl("profile", [
+		'user'=>$user->getValues(),
+		'profileMsg'=>User::getSuccess(),
+		'profileError'=>User::getError()
+	]);
+
+
+});
+
+
+$app->post("/profile", function(){
+
+	User::verifyLogin(false);
+
+	if (!isset($_POST['desperson']) || $_POST['desperson'] === '') 
+		{
+			User::setError("Preencha o seu nome!");
+			header("Location:/profile");
+			exit;
+		}
+
+	if (!isset($_POST['desemail']) || $_POST['desemail'] === '') 
+		{
+			User::setError("Preencha o seu e-mail!");
+			header("Location:/profile");
+			exit;
+		}
+
+
+	$user = User::getFromSession();  // aproveita os dados do utilizador e altera os dados alterados.
+
+	if ($_POST['desemail'] !== $user->getdesemail())  // verifica se houve alteração de email e se o novo já existe
+		{
+			if (User::checkLoginExist($_POST['desemail']) === true)
+			{
+				User::setError("Este endereço de e-mail já existe!");
+				header("Location:/profile");
+				exit;
+			}
+		}
+
+	
+	$_POST['iduser'] = $user->getiduser();   // Le o iduser
+
+	$_POST['inadmin'] = $user->getinadmin();  // Vai ler o valor do inadmin existente e sobreescreve para evitar alterações. Ignora o que está a ser enviado e guarda o que está na Base Dados.
+
+	$_POST['despassword'] = $user->getdespassword();
+
+	$_POST['deslogin'] = $_POST['desemail'];   // O login é o email.
+
+	$user->setData($_POST);
+
+	$user->updateParcial();
+
+	$_SESSION[User::SESSION] = $user->getValues();
+
+	User::setSuccess("Dados alterados com sucesso!");
+
+	header("Location:/profile");
+
+	exit;
+
+});
 
 
  ?>
