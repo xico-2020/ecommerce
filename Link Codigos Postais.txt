@@ -1,0 +1,1 @@
+https://raw.githubusercontent.com/centraldedados/codigos_postais/e49281814d07ee3feda27b1f1954ac263ca42b21/data/codigos_postais.csv
