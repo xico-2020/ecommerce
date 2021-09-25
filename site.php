@@ -275,7 +275,6 @@ $app->post("/checkout", function() {
 
 	$cart = CART::getFromSession();
 
-	//$totals = $cart->getCalculateTotal();
 	$cart->getCalculateTotal();
 
 	$order = new Order();
@@ -286,7 +285,7 @@ $app->post("/checkout", function() {
 		'iduser'=>$user->getiduser(),
 		'idstatus'=>OrderStatus::EM_ABERTO,
 		'vltotal'=>$cart->getvltotal()
-		//'vltotal'=>$totals['vlprice'] + $cart->getvlfreight()
+		
 	]);
 
 	$order->save();
@@ -677,6 +676,48 @@ $app->get("/boleto/:idorder", function($idorder){
 
 	require_once($path . "funcoes_itau.php");
 	require_once($path . "layout_itau.php");
+
+});
+
+
+$app->get("/profile/orders", function(){
+
+	User::verifyLogin();
+
+	$user = User::getFromSession();  // traz o User para a rota.
+
+	$page = new Page();
+
+	$page->setTpl("profile-orders", [
+	'orders'=>$user->getOrders()
+	]);
+
+
+});
+
+
+$app->get("/profile/orders/:idorder", function($idorder){
+
+	User::verifyLogin();
+
+	$order = new Order();
+
+	$order->get((int)$idorder);
+
+	$cart = new Cart();
+
+	$cart->get((int)$order->getidcart());  // carrega o carrinho da sessão (do pedido). para carregar nos detalhes
+
+	$cart->getCalculateTotal();  // para mostrar os valores nos detalhes (profile-orders-detail.html).
+
+	$page = new Page();
+
+	$page->setTpl("profile-orders-detail", [
+	'order'=>$order->getValues(),
+	'cart'=>$cart->getValues(),
+	'products'=>$cart->getProducts()
+	]);
+
 
 });
 

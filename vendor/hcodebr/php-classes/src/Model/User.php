@@ -362,6 +362,27 @@ class User extends Model
 	}
 
 
+	public function getOrders()
+	{
+		$sql = new Sql();
+
+		$results = $sql->select("SELECT * 
+			FROM tb_orders a 
+			INNER JOIN tb_ordersstatus b USING(idstatus)
+			INNER JOIN tb_carts c USING(idcart)
+			INNER JOIN tb_users d ON d.iduser = a.iduser
+			INNER JOIN tb_addresses e USING(idaddress)
+			INNER JOIN tb_persons f ON f.idperson = d.idperson
+			WHERE a.iduser = :iduser
+		", [
+			':iduser'=>$this->getiduser()   // $this->getiduser() - Porque já tem a constante iduser carregada antes.
+		]);
+
+		return $results;
+
+	}
+
+
 
 
 	public static function setError($msg)
