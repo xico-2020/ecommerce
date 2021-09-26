@@ -28,7 +28,7 @@ $app->post('/admin/login', function(){   // criada nova rota dado que no login.h
 
 	User::login($_POST["login"], $_POST["password"]);   // validar o login. Crio uma classe User e um metodo estatico login porque nao sabemmos ainda quem é o usuario, que recebe o post do login e password.
 
-	header("Location:/admin");   // Se não der estoirar com alguma exception (tiver sucesso),  redireciono para a nossa home page de administracao.
+	header("Location:/admin");   // Se não estoirar com alguma exception (tiver sucesso),  redireciono para a nossa home page de administracao.
 	exit;  // para parar.
 });
 

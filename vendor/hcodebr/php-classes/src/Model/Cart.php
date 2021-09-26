@@ -57,6 +57,13 @@ class Cart extends Model
 	}
 
 
+	public function removeSession()
+	{
+	     $_SESSION[Cart::SESSION] = NULL;
+	     session_regenerate_id();
+	}
+
+
 
 	public function getFromSessionID()   // não recebe nenhum parametro pois vai buscar o sessionID via funcão do PHP (session_id)
 	{
@@ -202,7 +209,7 @@ class Cart extends Model
 
 		if ($totals['nrqtd'] > 0)  // verificar se existe alguma coisa no carrinho
 		{
-			/*
+			/*   O codigo a seguir está como comentado pois o calculo do frete demora muito tempo. Assim associo valores fixos em vez de os calcular.
 			if($totals['vlheight'] < 2) $totals['vlheight'] = 2;
 			if($totals['vllength'] < 16) $totals['vllength'] = 16;
 
@@ -345,6 +352,12 @@ class Cart extends Model
 			}
     	
 
+	}
+
+
+	public static function removeFromSession()
+	{
+		$_SESSION[Cart::SESSION] = NULL;
 	}
 
 

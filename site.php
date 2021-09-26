@@ -323,7 +323,8 @@ $app->post("/login", function() {
 	}
 
 
-	header("Location:/checkout");
+	//header("Location:/profile");
+	header("Location:/");
 
 	exit;
 
@@ -333,6 +334,9 @@ $app->post("/login", function() {
 $app->get("/logout", function() {
 
 	User::logout();
+
+	Cart::removeFromSession();  // Estas duas linhas servem para limpar o carrinho da sessão quando o utilizador faz logout.
+	session_regenerate_id();
 
 	header("Location:/login");
 
@@ -385,6 +389,15 @@ $app->post("/register", function() {
 			exit;
 		}
 
+	$pwdverify = User::checkPassword($_POST['password']);
+
+	if ($pwdverify === false)
+		{
+			User::setErrorRegister("A senha deve ter pelo menos 4 carateres, letras maiúsculas, minúsculas, números e caracteres especiais!");
+			header("Location:/login");
+			exit;
+		}
+
 
 	$user = new User();
 
@@ -400,8 +413,6 @@ $app->post("/register", function() {
 	$user->save();
 
 	User::login($_POST['email'], $_POST['password']);  // como estou a fazer o registo faco logo o login.
-
-	//$_SESSION["registerValues"] = "['name'=>'', 'email'=>'', 'phone'=>'']";
 
 	header("Location:/checkout");
 
@@ -421,7 +432,7 @@ $app->get("/forgot", function() {
 
 	/*
 	$page->setTpl("forgot", [
-	'errorRegister'=>User::getErrorRegister()
+	'ErrorRegister'=>User::getErrorRegister()
 	]); 	
 	*/
 
@@ -718,8 +729,110 @@ $app->get("/profile/orders/:idorder", function($idorder){
 	'products'=>$cart->getProducts()
 	]);
 
+});
+
+
+$app->get("/profile/change-password", function(){
+
+	User::verifyLogin(false);
+
+	$page = new Page();
+
+	$page->setTpl("profile-change-password", [
+		'changePassError'=>User::getError(),
+		'changePassSuccess'=>User::getSuccess()
+	]);
+
 
 });
+
+
+$app->post("/profile/change-password", function(){
+
+	User::verifyLogin(false);
+
+	$user = User::getFromSession();
+
+	if (!isset($_POST['current_pass']) || $_POST['current_pass'] === '')
+		{
+			User::setError("Digite a senha atual!");
+			header("Location:/profile/change-password");
+			exit;
+		}
+
+	if(!password_verify($_POST['current_pass'], $user->getdespassword()))  // Compara a pwd nova com a da BD (com Hash).
+		{
+		User::setError("Senha atual inválida!");
+		header("Location:/profile/change-password");
+		exit;
+		}
+	
+
+	if (!isset($_POST['new_pass']) || $_POST['new_pass'] === '')
+		{
+			User::setError("Digite a nova senha!");
+			header("Location:/profile/change-password");
+			exit;
+		}
+
+	$pwdverify = User::checkPassword($_POST['new_pass']);
+
+	if ($pwdverify === false)
+		{
+			User::setError("A senha deve ter pelo menos 4 carateres, letras maiúsculas, minúsculas, números e caracteres especiais!");
+			header("Location:/profile/change-password");
+			exit;
+		}
+
+	if (!isset($_POST['new_pass_confirm']) || $_POST['new_pass_confirm'] === '')
+		{
+			User::setError("Confirme a nova senha!");
+			header("Location:/profile/change-password");
+			exit;
+		}
+
+	
+	if ($_POST['new_pass_confirm'] != $_POST['new_pass'])
+		{
+			User::setError("Nova senha e confirmação devem ser iguais!");
+			header("Location:/profile/change-password");
+			exit;
+		}
+
+
+	if ($_POST['current_pass'] === $_POST['new_pass'])   // comparação em texto simples
+		{
+			User::setError("Nova senha tem que ser diferente da atual!");
+			header("Location:/profile/change-password");
+			exit;
+		}
+
+	/*
+	$user = User::getFromSession();
+
+	if(!password_verify($_POST['current_pass'], $user->getdespassword()))  // Compara a pwd nova com a da BD (com Hash).
+	{
+		User::setError("Senha atual inválida!");
+		header("Location:/profile/change-password");
+		exit;
+	}
+	*/
+
+	$user->setdespassword($_POST['new_pass']);
+
+	$user->update();
+
+	User::setSuccess("Senha alterada com sucesso!");
+
+	//$user->getValues();
+
+	header("Location:/profile/change-password");
+	exit;
+
+});
+
+
+
 
 
  ?>

@@ -486,7 +486,24 @@ class User extends Model
 		return (count($results) > 0);  // retorna se for maior que zero. É porque existe um login igual.
 	}
 
+	public static function checkPassword($pwd)
+	{
+		
+		$uppercase = preg_match('@[A-Z]@', $pwd);
+		$lowercase = preg_match('@[a-z]@', $pwd);
+		$number    = preg_match('@[0-9]@', $pwd);
 
+		(bool)$pwdverify = true;
+
+		if(!$uppercase || !$lowercase || !$number || strlen($pwd) < 4) 
+			{
+	  			return $pwdverify = false;
+			} else
+				{
+					return $pwdverify = true;
+				}
+
+	}
 
 
 
