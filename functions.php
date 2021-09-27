@@ -10,6 +10,12 @@ function formatPrice($vlprice)
 	return number_format($vlprice, 2, ",", ".");
 }
 
+function formatDate($date)
+{
+
+	return date('d/m/Y' , strtotime($date));
+}
+
 
 function checkLogin($inadmin = true)  //  Passa o inadmin que por padrao é true e envia para a classe User metodo checkLogin. Isto para poder usar dentro do template no namespace global. Usado no header.html
 {
