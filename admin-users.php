@@ -7,12 +7,39 @@ $app->get("/admin/users", function() {     // lista todos os usuarios
 
 	User::verifyLogin();
 
-	$users = User::listAll();
+	$search = (isset($_GET['search'])) ? $_GET['search'] : "";  // Se existir passa o valor se não passa vazio.
+
+	$page = (isset($_GET['page'])) ? (int)$_GET['page'] : 1;
+
+	if ($search != '')
+		{
+			$pagination = User::getPageSearch($search, $page);
+
+		} else
+			{
+				$pagination = User::getPage($page);
+			}
+
+
+	$pages = [];
+
+	for ($x = 0; $x > $pagination['pages']; $x++)
+		{
+			array_push($pages, [
+				'href'=>'/admin/users?'.http_buil_query([
+					'page'=>$x+1,
+					'search'=>$search
+				]),
+				'text'=>$x+1
+			]);
+		}
 
 	$page = new PageAdmin();  // criar $page que recebe o construtor vazio. Chama o construct e adiciona o header no ecran.
 
 	$page->setTpl("users", array(    // cria chave que passa uma chave "users" com o valor da variavel $users .
-		"users"=>$users   
+		"users"=>$pagination['data'],
+		"search"=>$search,
+		"pages"=>$pages   // $pages é o array definido acima que contem todas as paginas.
 	));   // Adiciona o template "users" que está em views/admin.
 });
 

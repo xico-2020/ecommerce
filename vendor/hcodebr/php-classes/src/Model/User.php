@@ -383,6 +383,58 @@ class User extends Model
 	}
 
 
+	public static function getPage($page = 1, $itemsPerPage = 10)
+	{
+		$start = ($page -1) * $itemsPerPage;
+
+		$sql = new Sql();
+
+		$results = $sql->select("
+			SELECT SQL_CALC_FOUND_ROWS *
+			FROM tb_users a 
+			INNER JOIN tb_persons b USING(idperson) 
+			ORDER BY b.desperson
+			LIMIT $start, $itemsPerPage;
+			");
+
+		$resultTotal = $sql->select("SELECT FOUND_ROWS() AS nrtotal;");
+
+		return [
+			'data'=>$results,
+			'total'=>(int)$resultTotal[0]["nrtotal"],
+			'pages'=>ceil($resultTotal[0]["nrtotal"] / $itemsPerPage)
+		];
+	}
+
+
+	public static function getPageSearch($search, $page = 1, $itemsPerPage = 10)
+	{
+		$start = ($page -1) * $itemsPerPage;
+
+		$sql = new Sql();
+
+		$results = $sql->select("
+			SELECT SQL_CALC_FOUND_ROWS *
+			FROM tb_users a 
+			INNER JOIN tb_persons b USING(idperson)
+			WHERE b.desperson LIKE :search OR b.desemail = :search OR a.deslogin LIKE :search
+			ORDER BY b.desperson
+			LIMIT $start, $itemsPerPage;
+			", [
+				':search'=>'%'.$search.'%'
+			]);
+
+		$resultTotal = $sql->select("SELECT FOUND_ROWS() AS nrtotal;");
+
+		return [
+			'data'=>$results,
+			'total'=>(int)$resultTotal[0]["nrtotal"],
+			'pages'=>ceil($resultTotal[0]["nrtotal"] / $itemsPerPage)
+		];
+	}
+
+
+
 
 
 	public static function setError($msg)
@@ -405,7 +457,7 @@ class User extends Model
 	}
 
 
-		public static function setSuccess($msg)
+	public static function setSuccess($msg)
 	{
 		$_SESSION[User::SUCCESS] = $msg;    //ERROR constante definida no principio da classe
 	}
@@ -446,31 +498,6 @@ class User extends Model
 	{
 		$_SESSION[User::ERROR_REGISTER] = NULL;
 	}
-
-
-
-	/*
-	public static function setErrorRegister1($msg)
-	{
-		$_SESSION[User::ERROR_REGISTER1] = $msg;
-	}
-
-	public static function getErrorRegister1()
-	{
-		$msg = (isset($_SESSION[User::ERROR_REGISTER1]) && $_SESSION[User::ERROR_REGISTER1]) ? $_SESSION[User::ERROR_REGISTER1] : "";  // verifica se está na sessão e se não é vazio (se existe). Se existir retorna ele mesmo, caso contrário retorna espacos.
-
-		User::clearErrorRegister1();
-
-		return $msg;
-	}
-
-
-	public static function clearErrorRegister1()
-	{
-		$_SESSION[User::ERROR_REGISTER1] = NULL;
-	}
-
-	*/
 
 
 
