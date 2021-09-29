@@ -27,6 +27,15 @@ $app->get("/admin/categories", function(){
 
 	for ($x = 0; $x > $pagination['pages']; $x++)
 		{
+			array_push($pages, array(
+            "href"=>"/admin/categories?".http_build_query(array(
+            "page"=>$x + 1,
+            "search"=>$search
+        	)),
+	        "text"=>$x + 1,
+	        "active"=>(($x + 1) == $page)
+    ));
+			/*
 			array_push($pages, [
 				'href'=>'/admin/categories?'.http_buil_query([
 					'page'=>$x+1,
@@ -34,6 +43,7 @@ $app->get("/admin/categories", function(){
 				]),
 				'text'=>$x+1
 			]);
+			*/
 		}
 
 
