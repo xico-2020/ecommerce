@@ -170,7 +170,7 @@ class Order extends Model {
 	}
 
 
-	public static function getPageSearch($search, $page = 1, $itemsPerPage = 2)
+	public static function getPageSearch($search, $page = 1, $itemsPerPage = 10)
 	{
 		$start = ($page -1) * $itemsPerPage;
 

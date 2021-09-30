@@ -127,7 +127,7 @@ $app->get("/admin/orders", function() {
         	)),
 	        "text"=>$x + 1,
 	        "active"=>(($x + 1) == $page)
-    ));
+    		));
 			/*
 			array_push($pages, [
 				'href'=>'/admin/categories?'.http_buil_query([
