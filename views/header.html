@@ -52,7 +52,6 @@
                         </ul>
                     </div>
                 </div>
-                
                 <div class="col-md-4">
                     <div class="header-right">
                         <ul class="list-unstyled list-inline">
@@ -78,8 +77,10 @@
             </div>
         </div>
     </div> <!-- End header area -->
-    
+
+
     <div class="site-branding-area">
+
         <div class="container">
             <div class="row">
                 <div class="col-sm-6">
@@ -110,8 +111,9 @@
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         <li class="active"><a href="/">INICIO</a></li>
-                        <li><a href="#">Produtos</a></li>
+                        <li><a href="/produtosinicio">Produtos</a></li>   
                         <li><a href="/cart">Carrinho</a></li>
+                        <div class="box-tools">
                     </ul>
                 </div>  
             </div>

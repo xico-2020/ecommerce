@@ -26,6 +26,23 @@ $app->get('/', function() {   // criacao de rota "/"
 
 });
 
+$app->get('/produtosinicio', function() {   // criacao de rota "/"
+
+	$products = Product::listAll();
+
+	$page = new Page();  // criar $page que recebe o construtor vazio. Chama o construct e adiciona o header no ecran.
+
+	$page->setTpl("produtos-inicio", [
+		"products"=>Product::checkList($products)
+	]);   // Adiciona o <h1>
+    
+	//echo "OK";  // mostra OK quando carrega a pagina
+	//$sql = new Hcode\DB\Sql();
+	//$results = $sql->select("SELECT * FROM tb_users");
+	//echo json_encode($results);
+
+});
+
 
 $app->get("/categories/:idcategory", function($idcategory) {
 
@@ -290,13 +307,96 @@ $app->post("/checkout", function() {
 
 	$order->save();
 
+	switch ((int)$_POST['payment-method']) {
+
+		case 1:
+		//header("Location:/checkout");
+			//exit;
+		header("Location:/order/".$order->getidorder()."/pagseguro");
+		break;
+
+		case 2:
+		header("Location:/order/".$order->getidorder()."/paypal");
+		break;
+
+		case 3:
+		header("Location:/order/".$order->getidorder()."/boleto");
+		break;
+
+	}
+
 	$cart->removeSession();  // adicionado para que o carrinho não apareca quando se loga outro utilizador.
 
-	header("Location:/order/".$order->getidorder());
+	//header("Location:/order/".$order->getidorder());
 
 	exit;
 	
 });
+
+$app->get("/order/:idorder/pagseguro", function($idorder) {
+
+	/*
+	header("Location:/checkout");
+
+	exit;
+	*/
+
+	///*
+
+	User::verifyLogin(false);
+
+	$order = new Order();
+
+	$order->get((int)$idorder);
+
+	$cart = $order->getCart();
+
+	$page = new Page([
+		'header'=>false,
+		'footer'=>false
+	]);
+
+	
+	$page->setTpl("payment-pagseguro", [
+		'order'=>$order->getValues(),
+		'cart'=>$cart->getValues(),
+		'products'=>$cart->getProducts(),
+		'phone'=>[
+			'areaCode'=>substr($order->getnrphone(), 0, 2),
+			'number'=>substr($order->getnrphone(), 2, strlen($order->getnrphone()))
+		]
+	]);
+	
+	//*/
+	
+
+});
+
+
+$app->get("/order/:idorder/paypal", function($idorder) {
+
+	User::verifyLogin(false);
+
+	$order = new Order();
+
+	$order->get((int)$idorder);
+
+	$cart = $order->getCart();
+
+	$page = new Page([
+		'header'=>false,
+		'footer'=>false
+	]);
+
+	$page->setTpl("payment-paypal", [
+		'order'=>$order->getValues(),
+		'cart'=>$cart->getValues(),
+		'products'=>$cart->getProducts()
+	]);
+
+
+});
+
 
 
 $app->get("/login", function() {
@@ -603,7 +703,7 @@ $app->post("/profile", function(){
 });
 
 
-$app->get("/order/:idorder", function($idorder){
+$app->get("/order/:idorder/boleto", function($idorder){
 
 	User::verifyLogin(false);
 
@@ -676,11 +776,11 @@ $app->get("/boleto/:idorder", function($idorder){
 	$dadosboleto["carteira"] = "175";  // Código da Carteira: pode ser 175, 174, 104, 109, 178, ou 157
 
 	// SEUS DADOS
-	$dadosboleto["identificacao"] = "Hcode Treinamentos";
-	$dadosboleto["cpf_cnpj"] = "24.700.731/0001-08";
-	$dadosboleto["endereco"] = "Rua Ademar Saraiva Leão, 234 - Alvarenga, 09853-120";
-	$dadosboleto["cidade_uf"] = "São Bernardo do Campo - SP";
-	$dadosboleto["cedente"] = "HCODE TREINAMENTOS LTDA - ME";
+	$dadosboleto["identificacao"] = "TRYSOFTWARE";
+	$dadosboleto["cpf_cnpj"] = "2410-111 LEIRIA";
+	$dadosboleto["endereco"] = "Rua da Experiencia 69";
+	$dadosboleto["cidade_uf"] = "Leiria";
+	$dadosboleto["cedente"] = "TRYSOFTWARE SA";
 
 	// NÃO ALTERAR!
 	$path = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "res" . DIRECTORY_SEPARATOR . "boletophp" . DIRECTORY_SEPARATOR . "include" . DIRECTORY_SEPARATOR;

@@ -15,9 +15,9 @@
 					<li><img src="/res/site/img/h4-slide2.png" alt="Slide">
 						<div class="caption-group">
 							<h2 class="caption title">
-								by one, get one <span class="primary">50% <strong>off</strong></span>
+								Compre com <span class="primary">50% <strong>desconto</strong></span>
 							</h2>
-							<h4 class="caption subtitle">school supplies & backpacks.*</h4>
+							<h4 class="caption subtitle">escola, acessórios e mochilas.*</h4>
 							<a class="caption button-radius" href="#"><span class="icon"></span>Comprar</a>
 						</div>
 					</li>
@@ -26,7 +26,7 @@
 							<h2 class="caption title">
 								Apple <span class="primary">Store <strong>Ipod</strong></span>
 							</h2>
-							<h4 class="caption subtitle">Select Item</h4>
+							<h4 class="caption subtitle">Escolha um</h4>
 							<a class="caption button-radius" href="#"><span class="icon"></span>Comprar</a>
 						</div>
 					</li>

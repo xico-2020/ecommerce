@@ -49,11 +49,11 @@ $dadosboleto["conta_dv"] = "2"; 	// Digito do Num da conta
 $dadosboleto["carteira"] = "175";  // Código da Carteira: pode ser 175, 174, 104, 109, 178, ou 157
 
 // SEUS DADOS
-$dadosboleto["identificacao"] = "Hcode Treinamentos";
-$dadosboleto["cpf_cnpj"] = "24.700.731/0001-08";
-$dadosboleto["endereco"] = "Rua Ademar Saraiva Leão, 234 - Alvarenga, 09853-120";
-$dadosboleto["cidade_uf"] = "São Bernardo do Campo - SP";
-$dadosboleto["cedente"] = "HCODE TREINAMENTOS LTDA - ME";
+$dadosboleto["identificacao"] = "TRYSOFTWARE";
+$dadosboleto["cpf_cnpj"] = "2410-111 LEIRIA";
+$dadosboleto["endereco"] = "Rua da Experiencia 69";
+$dadosboleto["cidade_uf"] = "Leiria";
+$dadosboleto["cedente"] = "TRYSOFTWARE SA";
 
 // NÃO ALTERAR!
 include("include/funcoes_itau.php"); 
